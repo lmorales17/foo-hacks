@@ -1,14 +1,54 @@
+"""
+POTENTIAL IMPLEMENTATION IDEAS:
+- Turn based style game (probably by relying on the raw_input function)
+-Converting dino list into series of Dinosaur sub-classes
+-Add in a variety of different attacks for each specific dinosaur
+-Add in a variety of different attributes, (ie, speed, accuracy, etc), for the various dinosaurs
+-Implement exp points based on winning fights
+-Make it so dinosaurs can do more than just fight and roar... maybe some non-damaging actions/attacks?
+-NEED TO IMPLEMENT MORE OF THE GAME FUNCTIONALITY, as opposed to forcing the player
+to instantiate their own objects, I need some abstraction, yo
+-Implement a way to select dinosaurs based on user interest,
+I want the dinosaur generation to stay inherently random, but
+maybe different pools of dinosaurs based on what the player claims to value?
+
+***much further down***
+
+-Implement auto-saving, ie writing to a file on the computer
+after something important happens, so the player doesn't need the terminal open all the time
+
+"""
+
+
+
+
 #this module is imported for the random number generator
 import numpy
+
+
+num_gen = numpy.random.random_integers #done so I don't have to type this out everytime
 
 class Game(object):
 	current_dinos = 0 #keeps track of the global number of dinosaurs
 	#create distinction between user controlled and wild dinosaurs
+	current_players = []
+
+
+	#beginning game logistics, I really like using raw_input as I think its a nice way
+	#to easily pace the game
 	def __init__(self, num_players):
 		for num in range(1, num_players+1):
-			foo = raw_input("Hello and welcome to the Land of the Dinosaurs, Player {0}!\nPlease Press Enter to Continue".format(num))
+			curr_player_name = raw_input("Hello and welcome to the Land of the Dinosaurs, Player {0}!\n~~Please Type Your Name and Press Enter to Continue~~".format(num))
+			print "Thanks {0}!".format(curr_player_name)
+			Game.current_players.append(Player(curr_player_name))
+
+
 
 class Player(object):
+	def __init__(self, name):
+		priorities = #I'm planning on making it so the type of attributes you prioritize will
+					 #will affect the types of dinosaurs you might end up with
+		self.name = name
 
 class Dinosaur(object):
 
@@ -19,8 +59,8 @@ class Dinosaur(object):
 	dino_names = ['Charles', 'Snoop', 'Richard', 'Drake', 'Mac Daddy', 'Barney', 'Pimp Master', 'Octavius', 'Optimus Prime', 'Jason', 'Coolio', 'Paulie D', 'Jasmina']
 	
 	def __init__(self, RND=False):
-		random_dino_list_index = numpy.random.random_integers(0, len(Dinosaur.dino_list)-1)
-		random_dino_name_index = numpy.random.random_integers(0, len(Dinosaur.dino_names)-1)
+		random_dino_list_index = num_gen(0, len(Dinosaur.dino_list)-1)
+		random_dino_name_index = num_gen(0, len(Dinosaur.dino_names)-1)
 		if RND == False: #this was implemented to allow the specific creation of
 						 #Robot Ninja Dragons if desired
 			self.identity = Dinosaur.dino_list[random_dino_list_index]
@@ -62,8 +102,8 @@ class Dinosaur(object):
 
 				#the attack strength for a dinosaur in a given battle is
 				#random, but is weighted with respect to a dinosaur's strength attribute
-				my_attack_strength = (self.strength*numpy.random.random_integers(1, 15))/15
-				others_attack_strength = (other.strength*numpy.random.random_integers(1,15))/15
+				my_attack_strength = (self.strength*num_gen(1, 15))/15
+				others_attack_strength = (other.strength*num_gen(1,15))/15
 				
 				#flavor text for either misses or full strength hits (both of which should occur rarely)
 				if others_attack_strength ==  0:
