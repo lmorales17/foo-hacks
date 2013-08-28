@@ -1,12 +1,20 @@
 #this module is imported for the random number generator
 import numpy
 
+class Game(object):
+	current_dinos = 0 #keeps track of the global number of dinosaurs
+	#create distinction between user controlled and wild dinosaurs
+	def __init__(self, num_players):
+		for num in range(1, num_players+1):
+			foo = raw_input("Hello and welcome to the Land of the Dinosaurs, Player {0}!\nPlease Press Enter to Continue".format(num))
 
+class Player(object):
 
 class Dinosaur(object):
 
-	current_dinos = 0 #keeps track of the global number of dinosaurs
+
 	#the following lists are pulled from based on indices which are generated randomly each time
+	#I'm in the process of converting the first list into a series of inherited classes
 	dino_list = [['Stegosaurus', 13, 13] , ['Triceratops', 10, 20], ['Tyrannosaurus Rex', 20, 10], ['Brontosaurus', 10, 10], ['Pteradactyl', 15, 5], ['Velociraptor', 17, 8], ['Walrus', 5,20], ['Robot Ninja Dragon', 30, 30]]
 	dino_names = ['Charles', 'Snoop', 'Richard', 'Drake', 'Mac Daddy', 'Barney', 'Pimp Master', 'Octavius', 'Optimus Prime', 'Jason', 'Coolio', 'Paulie D', 'Jasmina']
 	
@@ -22,7 +30,7 @@ class Dinosaur(object):
 		self.strength = self.identity[1]
 		self.health = self.identity[2]
 		self.victory_count = 0
-		Dinosaur.current_dinos += 1
+		Game.current_dinos += 1
 		if self.identity[0] == 'Robot Ninja Dragon':
 			print "HOLY S**T. I'M A MOTHERF**KING ROBOT NINJA DRAGON.\nTHIS SHOULDN'T EVEN BE HAPPENING.\nOh and my name's {0}.".format(self.name) 
 		elif self.strength >= 13:
@@ -33,7 +41,7 @@ class Dinosaur(object):
 #		self.exp_points = 0
 	def __del__(self):
 		#This provides flavor text for dinosaur objects which are deleted from memory
-		Dinosaur.current_dinos -= 1
+		Game.current_dinos -= 1
 		if self.health > 0:
 			print "BOOOMMM!! A meteor has landed and {0} is gone!".format(self.name)
 	def __add__(self, other):
@@ -74,11 +82,11 @@ class Dinosaur(object):
 				#and flavor text
 				if other.health < 0:
 					other.dead = True #attribute which defaults as False
-					Dinosaur.current_dinos -= 1
+					Game.current_dinos -= 1
 					print "{0} was defeated in battle!".format(other.name)
 				if self.health < 0:
 					self.dead = True
-					Dinosaur.current_dinos -= 1
+					Game.current_dinos -= 1
 					print "{0} was defeated in battle!".format(self.name)
 
 				#in cases where both dinosaurs survive
@@ -104,10 +112,35 @@ class Dinosaur(object):
 		else:
 			print "My name is {0} and I've defeated {1} other dinosaurs in battle!".format(self.name, self.victory_count)
 
+
+
+	dino_list = [['Stegosaurus', 13, 13] , ['Triceratops', 10, 20], ['Tyrannosaurus Rex', 20, 10], ['Brontosaurus', 10, 10], ['Pteradactyl', 15, 5], ['Velociraptor', 17, 8], ['Walrus', 5,20], ['Robot Ninja Dragon', 30, 30]]
+
+class Stegosaurus(Dinosaur):
+	def __init__(self):
+		self.strength = 13
+		self.health = 13
+		self.attack_dict = {'Tail Swipe' = }
 			#currently not in use, but was an attempt at handling dinosaur death
-class DeadDino(object):
+
+class Triceratops(Dinosaur):
+
+class Tyrannosaurus_Rex(Dinosaur):
+
+class Brontosaurus(Dinosaur):
+
+class Pteradactyl(Dinosaur):
+
+class Velociraptor(Dinosaur):
+
+
+
+
+
+
+"""class DeadDino(object):
 	health = 0
 	def __init__(self, old_name):
-		Dinosaur.current_dinos -= 1
-		print "{0} was defeated in battle!".format(old_name)
+		Game.current_dinos -= 1
+		print "{0} was defeated in battle!".format(old_name)"""
 
