@@ -5,6 +5,8 @@ POTENTIAL IMPLEMENTATION IDEAS:
 -Add in a variety of different attacks for each specific dinosaur
 -Add in a variety of different attributes, (ie, speed, accuracy, etc), for the various dinosaurs
 -Implement exp points based on winning fights
+-Dinosaur specific special abilities
+-And I think I just decided that they have to have magical powers
 -Make it so dinosaurs can do more than just fight and roar... maybe some non-damaging actions/attacks?
 -NEED TO IMPLEMENT MORE OF THE GAME FUNCTIONALITY, as opposed to forcing the player
 to instantiate their own objects, I need some abstraction, yo
@@ -12,7 +14,7 @@ to instantiate their own objects, I need some abstraction, yo
 I want the dinosaur generation to stay inherently random, but
 maybe different pools of dinosaurs based on what the player claims to value?
 
-***much further down***
+***much further down the line***
 
 -Implement auto-saving, ie writing to a file on the computer
 after something important happens, so the player doesn't need the terminal open all the time
@@ -46,16 +48,25 @@ class Game(object):
 
 class Player(object):
 	def __init__(self, name):
-		priorities = #I'm planning on making it so the type of attributes you prioritize will
-					 #will affect the types of dinosaurs you might end up with
+		try:
+			#I'm planning on making it so the type of attributes you prioritize will
+			#will affect the types of dinosaurs you might end up with
+			priorities = raw_input("Before you get to meet your Dinosaur, tell us a little about yourself.\nWhich of these ideas do you most closely identiy with?\n-Brute Strength\n-Finesse\n-Persistence"
+			assert priorities in ["Brute Strength", "Finesse", "Persistence"]
+			self.priorities = priorities
+		except AssertionError as e:
+			print "We're just gonna assume you most closely identify with being a smart-ass."
+			self.priorities = "Smart-Ass"
 		self.name = name
+		self.dinosaur = None
+
 
 class Dinosaur(object):
 
 
 	#the following lists are pulled from based on indices which are generated randomly each time
 	#I'm in the process of converting the first list into a series of inherited classes
-	dino_list = [['Stegosaurus', 13, 13] , ['Triceratops', 10, 20], ['Tyrannosaurus Rex', 20, 10], ['Brontosaurus', 10, 10], ['Pteradactyl', 15, 5], ['Velociraptor', 17, 8], ['Walrus', 5,20], ['Robot Ninja Dragon', 30, 30]]
+	dino_list = [['Stegosaurus', 25, 25] , ['Triceratops', 10, 40], ['Tyrannosaurus Rex', 40, 10], ['Brontosaurus', 5, 45], ['Pteradactyl', 15, 35], ['Velociraptor', 35, 15], ['Robot Ninja Dragon', 50, 50]]
 	dino_names = ['Charles', 'Snoop', 'Richard', 'Drake', 'Mac Daddy', 'Barney', 'Pimp Master', 'Octavius', 'Optimus Prime', 'Jason', 'Coolio', 'Paulie D', 'Jasmina']
 	
 	def __init__(self, RND=False):
@@ -79,11 +90,17 @@ class Dinosaur(object):
 			print "GRRRRR! My name is {0} and I'm a {1}.".format(self.name, self.identity[0])
 		self.dead = False
 #		self.exp_points = 0
+	def receive_damage(self, amount):
+		self.health -= amount
+		if self.health <= 0:
+			self.
+	def dead_dino(self):
+
 	def __del__(self):
 		#This provides flavor text for dinosaur objects which are deleted from memory
 		Game.current_dinos -= 1
-		if self.health > 0:
-			print "BOOOMMM!! A meteor has landed and {0} is gone!".format(self.name)
+		print "BOOOMMM!! A meteor has landed and {0} is gone!".format(self.name)
+
 	def __add__(self, other):
 		#This 'try' loop was put in place to avoid problems with trying to add
 		#dinosaurs to other objects, and also to stop dead dinosaurs from fighting
@@ -154,30 +171,47 @@ class Dinosaur(object):
 
 
 
-	dino_list = [['Stegosaurus', 13, 13] , ['Triceratops', 10, 20], ['Tyrannosaurus Rex', 20, 10], ['Brontosaurus', 10, 10], ['Pteradactyl', 15, 5], ['Velociraptor', 17, 8], ['Walrus', 5,20], ['Robot Ninja Dragon', 30, 30]]
+#	dino_list = [['Stegosaurus', 25, 25] , ['Triceratops', 10, 40], ['Tyrannosaurus Rex', 40, 10], ['Brontosaurus', 5, 45], ['Pteradactyl', 15, 35], ['Velociraptor', 35, 15], ['Robot Ninja Dragon', 50, 50]]
 
 class Stegosaurus(Dinosaur):
 	def __init__(self):
-		self.strength = 13
-		self.health = 13
-		self.attack_dict = {'Tail Swipe' = }
-			#currently not in use, but was an attempt at handling dinosaur death
+		self.strength = 25
+		self.health = 25
+		self.attack_dict = {'Tail Spike' = .3, 'Head-butt' = .6, 'Super Charge' = 1}
 
 class Triceratops(Dinosaur):
+	def __init__(self):
+		self.strength = 10
+		self.health = 40
+		self.attack_dict = 
 
 class Tyrannosaurus_Rex(Dinosaur):
-
-class Brontosaurus(Dinosaur):
+	def __init__(self):
+		self.strength = 40
+		self.health = 10
+		self.attack_dict = 
 
 class Pteradactyl(Dinosaur):
+	def __init__(self):
+		self.strength = 15
+		self.health = 35
+		self.attack_dict = {'Dive Bomb' = }
 
 class Velociraptor(Dinosaur):
+	def __init__(self):
+		self.strength = 35
+		self.health = 15
+		self.attack_dict = 
+
+class RobotNinjaDragon(Dinosaur):
+	def __init__(self):
+		self.strength = 50
+		self.health = 50
+		self.attack_dict = 
 
 
 
-
-
-
+#currently not in use, but was an attempt at handling dinosaur death
 """class DeadDino(object):
 	health = 0
 	def __init__(self, old_name):
